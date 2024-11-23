@@ -21,6 +21,11 @@ class Subasta extends Model
         'creado_por',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'nombre';
+    }
+
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'categoria_id', 'id');

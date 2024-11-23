@@ -1,12 +1,11 @@
 <x-home-layout>
     <div class="container mx-auto px-4">
         <div class="flex">
-            <!-- Sidebar -->
             <x-home.sidebar-filtrado />
-            <!-- Subastas -->
+
             <div class="w-3/4 p-4">
                 <div class="flex justify-between items-center text-center mb-4 ">
-                    <h2 class="font-bold text-2xl">Subastas Destacadas</h2>
+                    <h2 class="font-bold text-2xl">Todas las Subastas</h2>
                     <a href="{{ route('subastas.index') }}" class="text-blue-500">Ver todas</a>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -21,6 +20,9 @@
                         <p class="text-gray-500">Categoría: {{ $subasta->categoria->nombre }} </p>
                     </a> 
                     @endforeach
+                </div>
+                <div class="mt-12">
+                    {{ $subastas->links() }}
                 </div>
             </div>
         </div>

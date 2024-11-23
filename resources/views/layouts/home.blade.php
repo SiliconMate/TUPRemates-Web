@@ -24,7 +24,7 @@
 
             <x-home.header />
 
-            <main class="mt-4">
+            <main class="my-8">
                 {{ $slot }}
             </main>
 

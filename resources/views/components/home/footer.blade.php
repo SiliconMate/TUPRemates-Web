@@ -29,8 +29,8 @@
                 Ayuda
             </h3>
             <ul class="space-y-2">
-                <li><a href="#" class="hover:text-blue-500">¿Cómo comprar?</a></li>
-                <li><a href="#" class="hover:text-blue-500">Quiero vender</a></li>
+                <li><a href="{{ route('como-participar') }}" class="hover:text-blue-500">¿Cómo comprar?</a></li>
+                <li><a href="{{ route('como-participar') }}" class="hover:text-blue-500">Quiero vender</a></li>
                 <li><a href="#" class="hover:text-blue-500">Política de Calidad</a></li>
                 <li><a href="#" class="hover:text-blue-500">Ayuda</a></li>
             </ul>
