@@ -6,24 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('metodos_envios', function (Blueprint $table) {
+        Schema::create('formas_pago', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 50);
+            $table->string('descripcion', 150);
             $table->timestamps();
             $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('metodos_envios');
+        Schema::dropIfExists('formas_pagos');
     }
 };

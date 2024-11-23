@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('direcciones', function (Blueprint $table) {
@@ -20,7 +17,7 @@ return new class extends Migration
             $table->string('localidad', 50);
             $table->string('provincia', 50);
             $table->string('codigo_postal', 10);
-            $table->foreignId('user_id')->constrained()
+            $table->foreignId('user_id')->constrained('users', 'id')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('telefono', 20);
@@ -29,9 +26,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('direcciones');

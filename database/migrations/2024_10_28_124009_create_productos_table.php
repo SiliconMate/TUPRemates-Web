@@ -12,16 +12,15 @@ return new class extends Migration
             $table->id();
             $table->string('titulo', 50);
             $table->string('descripcion', 255);
-            $table->decimal('precio_base', 8, 2);
+            $table->decimal('precio_base', 10, 2);
             $table->boolean('aprobado')->default(false);
-            $table->boolean('activo')->default(false);
-            $table->foreignId('subasta_id')->constrained()
+            $table->foreignId('subasta_id')->constrained('subastas', 'id')
                 ->onUpdate('cascade')
                 ->onDelete('no action');
-            $table->foreignId('user_id')->constrained()
+            $table->foreignId('solicitado_por')->constrained('users', 'id')
                 ->onUpdate('cascade')
                 ->onDelete('no action');
-            $table->foreignId('admin_id')->constrained()
+            $table->foreignId('aprobado_por')->constrained('admins', 'id')
                 ->onUpdate('cascade')
                 ->onDelete('no action');
             $table->timestamps();

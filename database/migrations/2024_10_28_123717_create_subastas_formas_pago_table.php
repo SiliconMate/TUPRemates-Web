@@ -6,17 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('subastas_formas_pago', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subasta_id')->constrained()
+            $table->foreignId('subasta_id')->constrained('subastas', 'id')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('formas_pago_id')->constrained('formas_pagos')
+            $table->foreignId('forma_pago_id')->constrained('formas_pago', 'id')
                 ->onUpdate('cascade')
                 ->onDelete('no action');
             $table->timestamps();
@@ -24,9 +21,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('subastas_formas_pago');

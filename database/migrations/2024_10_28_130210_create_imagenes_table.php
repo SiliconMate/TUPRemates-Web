@@ -6,25 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('formas_pagos', function (Blueprint $table) {
+        Schema::create('imagenes', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 50);
-            $table->string('descripcion', 150);
+            $table->foreignId('producto_id')->constrained('productos', 'id')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->string('url', 255);
             $table->timestamps();
             $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('formas_pagos');
+        Schema::dropIfExists('producto_imagenes');
     }
 };
