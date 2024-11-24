@@ -24,6 +24,19 @@ Route::get('/sobre-nosotros', [HomeController::class, 'about'])
 Route::get('como-participar', [HomeController::class, 'comoParticipar'])
     ->name('como-participar');
 
+Route::get('calidad', [HomeController::class, 'calidad'])
+    ->name('calidad');
+
+Route::get('legal', [HomeController::class, 'legal'])
+    ->name('legal');
+
+Route::get('terminos-y-condiciones', [HomeController::class, 'terminos'])
+    ->name('terminos');
+
+Route::get('contacto', [HomeController::class, 'contacto'])
+    ->name('contacto');
+
+
 // Subastas y Productos
 
 Route::resource('subastas', SubastaController::class)

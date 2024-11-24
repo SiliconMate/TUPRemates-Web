@@ -30,6 +30,7 @@ class SubastaController extends Controller
     public function publicarProducto(Request $request)
     {
         $subasta = Subasta::findOrFail($request->subasta_id);
+
         if (Auth::user() === null || $subasta->fecha_cierre < now()) {
             return back()->with('status', 'Debes iniciar sesión para publicar un producto o la subasta ya terminó.');
         }
@@ -41,6 +42,8 @@ class SubastaController extends Controller
             'subasta_id' => 'required|exists:subastas,id',
             'imagenes' => 'required|array',
             'imagenes.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'terminos' => 'accepted',
+            'acuerdo' => 'accepted',
         ]);
 
         $producto = Producto::create([

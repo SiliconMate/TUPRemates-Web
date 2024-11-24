@@ -14,7 +14,14 @@
                     <i class="ti ti-calendar-stats"></i>
                     Fecha de cierre: {{ $producto->subasta->fecha_cierre }}
                 </p>
-                <p class="text-gray-600 text-xl">Categoría: {{ $producto->subasta->categoria->nombre }}</p>
+                <p class="text-gray-600 text-xl">
+                    <i class="ti ti-truck"></i>
+                    <b>Envios:</b> {{ $producto->subasta->metodosEnvio->pluck('nombre')->join(', ') }}
+                </p>
+                <p class="text-gray-600 text-xl">
+                    <i class="ti ti-tag"></i>
+                    <b>Categoría:</b> {{ $producto->subasta->categoria->nombre }}
+                </p>
             </div>
 
             <div class="flex items-center text-center font-extrabold text-blue-500 mb-6">
@@ -94,8 +101,23 @@
                             <form action="{{ route('productos.ofertar') }}" method="POST" class="mt-6 flex flex-col items-center">
                                 @csrf
                                 <input type="hidden" name="producto_id" value="{{ $producto->id }}">
-                                <div class="flex w-full">
-                                    <input type="number" name="monto" class="border border-gray-300 rounded-md p-2 w-full" placeholder="Ingrese su oferta" required>
+
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="">
+                                        <input type="number" name="monto" class="border border-gray-300 rounded-md p-2 w-full" placeholder="Ingrese su oferta" required>
+                                        <x-input-error :messages="$errors->get('titulo')" class="mt-2" />
+                                    </div>
+                                    <div class="">
+                                        <select name="forma_pago_id" class="border border-gray-300 rounded-md p-2 w-full" required>
+                                            <option value="" selected disabled>Forma de pago</option>
+                                            @foreach (App\Models\SubastaFormaPago::with('formaPago')->get() as $item)
+                                                <option value="{{ $item->formaPago->id }}">{{ $item->formaPago->nombre }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="flex w-full justify-end mt-2">
                                     <button type="submit"
                                             class="ml-4 bg-blue-800 text-white font-semibold py-2 px-4 rounded-md cursor-pointer"
                                             @disabled( ($producto->subasta->fecha_cierre < now()) || !Auth::check() )>
@@ -114,7 +136,7 @@
                             <div class="flex items-center mt-4 justify-end">
                                 @if ($producto->subasta->fecha_cierre < now())
                                     <i class="text-blue-500 text-sm ml-4 ti ti-alert-octagon"></i>
-                                    <span class="text-blue-500 text-sm ml-1">Subasta cerrada</span>
+                                    <span class="text-blue-500 text-sm ml-1">Subasta finalizada</span>
                                 @elseif (!Auth::check())
                                     <i class="text-blue-500 text-sm ml-4 ti ti-alert-octagon"></i>
                                     <span class="text-blue-500 text-sm">Tienes que estar logueado</span>
@@ -145,10 +167,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($producto->usuariosOferentes as $oferta)
+                        @forelse ($producto->usuariosOferentes->whereNull('pivot.deleted_at') as $oferta)
                             <tr class="hover:bg-gray-100">
                                 <td class="border border-gray-300 px-4 py-2">{{ substr($oferta->name, 0, 2) . str_repeat('*', strlen($oferta->name) - 2) }}</td>
-                                <td class="border border-gray-300 px-4 py-2 text-center"> arreglar esto </td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">{{ $producto->usuariosOferentes->where('id', $oferta->id)->count() }}</td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">{{ App\Models\FormaPago::find($oferta->pivot->forma_pago_id)->nombre }}</td>
                                 <td class="border border-gray-300 px-4 py-2 text-right">${{ $oferta->pivot->monto }}</td>
                             </tr>

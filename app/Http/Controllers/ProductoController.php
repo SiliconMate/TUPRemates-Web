@@ -11,6 +11,10 @@ class ProductoController extends Controller
     public function show($id){
         $producto = Producto::with('imagenes', 'solicitado_por')->findOrFail($id);
 
+        if(!$producto->aprobado){
+            abort(404);
+        }
+
         return view('productos.show', compact('producto'));
     }
 
@@ -22,6 +26,7 @@ class ProductoController extends Controller
         $request->validate([
             'producto_id' => 'required|exists:productos,id',
             'monto' => 'required|numeric|min:0',
+            'forma_pago_id' => 'required|exists:formas_pago,id',
         ]);
 
         $producto = Producto::findOrFail($request->producto_id);
@@ -40,7 +45,7 @@ class ProductoController extends Controller
 
         $producto->usuariosOferentes()->attach(Auth::id(), [
             'monto' => $request->monto,
-            'forma_pago_id' => 1,
+            'forma_pago_id' => $request->forma_pago_id,
         ]);
 
         return back()->with('status', 'Oferta realizada con éxito.');

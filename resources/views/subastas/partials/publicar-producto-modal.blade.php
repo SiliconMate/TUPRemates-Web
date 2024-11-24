@@ -9,7 +9,6 @@
             </h2>
         </header>
 
-        {{-- campo hidden que pase la subasta en la que se está --}}
         <input type="hidden" name="subasta_id" value="{{ $subasta->id }}">
             
         <div class="grid grid-cols-2 gap-4">
@@ -63,6 +62,23 @@
                 </template>
             </div>
         </div>
+
+        {{-- 2 checkbox que digan, "acepto terminos y politicas" y "Acepto acuerdo legal" --}}
+        <div class="mt-4">
+            <label for="terminos" class="inline-flex items-center">
+                <input id="terminos" type="checkbox" name="terminos" value="1" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" required>
+                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Acepto los términos y condiciones') }}</span>
+            </label>
+            <x-input-error :messages="$errors->get('terminos')" class="mb-2" />
+        </div>
+        <div class="">
+            <label for="acuerdo" class="inline-flex items-center">
+                <input id="acuerdo" type="checkbox" name="acuerdo" value="1" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" required>
+                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Acepto el acuerdo legal') }}</span>
+            </label>
+            <x-input-error :messages="$errors->get('acuerdo')" class="mb-2" />
+        </div>
+
 
         <div class="mt-6 flex justify-end">
             <x-secondary-button x-on:click="$dispatch('close')">

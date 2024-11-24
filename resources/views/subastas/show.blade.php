@@ -14,11 +14,15 @@
 
                 <p class="text-gray-600 text-xl">
                     <i class="ti ti-calendar-event"></i>
-                    <b>Inicio</b> {{ $subasta->fecha_apertura }}
+                    <b>Inicio:</b> {{ $subasta->fecha_apertura }}
                 </p>
                 <p class="text-gray-600 text-xl">
                     <i class="ti ti-calendar-stats"></i>
-                    <b>Cierre</b> {{ $subasta->fecha_cierre }}
+                    <b>Cierre:</b> {{ $subasta->fecha_cierre }}
+                </p>
+                <p class="text-gray-600 text-xl">
+                    <i class="ti ti-truck"></i>
+                    <b>Envios:</b> {{ $subasta->metodosEnvio->pluck('nombre')->join(', ') }}
                 </p>
             </div>
 
@@ -35,7 +39,7 @@
             
             @if ($subasta->fecha_cierre < now())
             <i class="text-blue-500 text-sm ml-4 ti ti-alert-octagon"></i>
-            <span class="text-blue-500 text-sm ml-1">Subasta cerrada</span>
+            <span class="text-blue-500 text-sm ml-1">Subasta finalizada</span>
             @elseif (!Auth::check())
                 <i class="text-blue-500 text-sm ml-4 ti ti-alert-octagon"></i>
                 <span class="text-blue-500 text-sm">Tienes que estar logueado</span>

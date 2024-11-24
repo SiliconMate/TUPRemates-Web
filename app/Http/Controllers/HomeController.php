@@ -30,4 +30,24 @@ class HomeController extends Controller
     {
         return view('como-participar');
     }
+
+    public function calidad()
+    {
+        return view('calidad');
+    }
+
+    public function legal()
+    {
+        return view('legal');
+    }
+
+    public function terminos()
+    {
+        return view('term-cond');
+    }
+
+    public function contacto()
+    {
+        return view('contacto');
+    }
 }

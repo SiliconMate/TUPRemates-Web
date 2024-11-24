@@ -8,7 +8,7 @@
             </h3>
             <ul class="space-y-2">
                 <li><a href="{{ route('sobre-nosotros') }}" class="hover:text-blue-500">¿Quiénes somos?</a></li>
-                <li><a href="#" class="hover:text-blue-500">Dónde encontrarnos</a></li>
+                <li><a href="{{ route('contacto') }}" class="hover:text-blue-500">Dónde encontrarnos</a></li>
             </ul>
         </div>
         <div>
@@ -31,8 +31,8 @@
             <ul class="space-y-2">
                 <li><a href="{{ route('como-participar') }}" class="hover:text-blue-500">¿Cómo comprar?</a></li>
                 <li><a href="{{ route('como-participar') }}" class="hover:text-blue-500">Quiero vender</a></li>
-                <li><a href="#" class="hover:text-blue-500">Política de Calidad</a></li>
-                <li><a href="#" class="hover:text-blue-500">Ayuda</a></li>
+                <li><a href="{{ route('calidad') }}" class="hover:text-blue-500">Política de Calidad</a></li>
+                <li><a href="{{ route('legal') }}" class="hover:text-blue-500">Legales</a></li>
             </ul>
         </div>
     </section>
@@ -40,8 +40,8 @@
     <section class="mt-8 px-4 md:px-16">
         <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">
             2024 TUP Remates © • Av. calle de ejemplo 878 1° piso, Goya, Provincia de Corrinetes. A9243CSC. • +54 (3777) 1234-5678 • 
-            <a href="#" class="hover:text-blue-500">Términos y políticas</a> • 
-            <a href="#" class="hover:text-blue-500">Política de Calidad</a>
+            <a href="{{ route('terminos') }}" class="hover:text-blue-500">Términos y condiciones</a> • 
+            <a href="{{ route('calidad') }}" class="hover:text-blue-500">Política de Calidad</a>
         </p>
     </section>
 
