@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OfertaController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubastaController;
 use Illuminate\Support\Facades\Route;
@@ -22,11 +24,18 @@ Route::get('/sobre-nosotros', [HomeController::class, 'about'])
 Route::get('como-participar', [HomeController::class, 'comoParticipar'])
     ->name('como-participar');
 
-// Subastas
+// Subastas y Productos
 
 Route::resource('subastas', SubastaController::class)
     ->only(['index', 'show'])
     ->names('subastas');
+
+Route::resource('productos', ProductoController::class)
+    ->only(['show'])
+    ->names('productos');
+
+// Route::post('ofertas/{$product}', [OfertaController::class, 'store'])
+//     ->name('ofertas.store');
 
 
 Route::middleware('auth')->group(function () {

@@ -40,7 +40,7 @@ class Producto extends Model
 
     public function imagenes()
     {
-        return $this->hasMany(ProductoImagen::class, 'producto_id', 'id');
+        return $this->hasMany(Imagen::class, 'producto_id', 'id');
     }
 
     public function usuariosOferentes()

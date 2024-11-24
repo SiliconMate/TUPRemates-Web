@@ -6,7 +6,6 @@
             <div class="w-3/4 p-4">
                 <div class="flex justify-between items-center text-center mb-4 ">
                     <h2 class="font-bold text-2xl">Todas las Subastas</h2>
-                    <a href="{{ route('subastas.index') }}" class="text-blue-500">Ver todas</a>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach ($subastas as $subasta)
