@@ -8,6 +8,12 @@
         Filtrar
     </h2>
     <form method="GET" action="{{ route('subastas.index') }}" id="filterForm">
+
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">Nombre</h3>
+            <input type="text" name="query" value="{{ request('query') }}" placeholder="Buscar..." class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
         <div class="mb-6">
             <h3 class="text-lg font-semibold text-gray-700 mb-2">Categorías</h3>
             <ul class="space-y-2">

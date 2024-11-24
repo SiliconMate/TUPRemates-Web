@@ -1,17 +1,8 @@
-<header class="grid grid-cols-3 items-center gap-2 py-4 px-2 lg:px-32 border-b border-blue-800/20 shadow-sm w-full bg-white">
+<header class="grid grid-cols-2 items-center gap-2 py-4 px-2 lg:px-32 border-b border-blue-800/20 shadow-sm w-full bg-white">
     <div class="flex justify-start">
         <a href="/">
             <img class="h-9 w-auto lg:h-14" src="{{ asset('images/TUP-REMATES-LOGO.png') }}" alt="Logo" />
         </a>
-    </div>
-    
-    <div class="justify-center my-2 hidden md:flex">
-        <form action="{{ route('subastas.index') }}" method="GET" class="flex">
-            <input type="text" name="query" placeholder="Buscar..." required class="w-48 md:w-72 p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button type="submit" class="p-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <i class="ti ti-search"></i>
-            </button>
-        </form>
     </div>
 
     @if (Route::has('login'))
