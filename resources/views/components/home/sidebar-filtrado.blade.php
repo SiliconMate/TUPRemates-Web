@@ -2,7 +2,7 @@
     $categorias = App\Models\Categoria::all();
 @endphp
 
-<div class="w-1/4 p-6 bg-blue-100 shadow-lg rounded-lg">
+<div class="w-1/4 p-6 bg-blue-100 shadow-lg rounded-lg h-full">
     <h2 class="flex items-center text-xl font-bold mb-6 text-gray-800">
         <i class="ti ti-filter text-2xl mr-2"></i>
         Filtrar

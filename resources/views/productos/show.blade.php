@@ -27,7 +27,7 @@
                 
                 <div class="flex justify-center">
                     <div class="w-[60%]">
-                        <img src="{{Storage::disk('azure')->url($producto->imagenes->first()->url)}}"
+                        <img src="{{Storage::disk('azure')->url('productos/' . $producto->imagenes->first()->url)}}"
                             width="500px"
                             class="mx-auto"
                             alt="{{$producto->imagenes->first()->url}}">
@@ -44,11 +44,15 @@
                                 <p class="text-sm text-gray-500 font-medium">CIERRA:</p>
                                 <div class="flex flex-col">
                                     <p class="text-lg font-semibold text-gray-800 flex justify-between">
-                                        <span class="text-blue-800">{{ $diferencia->days ? $diferencia->days : '0' }}</span> días
-                                        <span class="text-gray-600"> | </span>
-                                        <span class="text-blue-800">{{ $diferencia->h }}</span> horas
-                                        <span class="text-gray-600"> | </span>
-                                        <span class="text-blue-800">{{ $diferencia->i }}</span> minutos
+                                        @if ($fechaCierre->isPast())
+                                            <span class="text-red-800">Cerrado</span>
+                                        @else
+                                            <span class="text-blue-800">{{ $diferencia->d ? $diferencia->d : '0' }}</span> días
+                                            <span class="text-gray-600"> | </span>
+                                            <span class="text-blue-800">{{ $diferencia->h }}</span> horas
+                                            <span class="text-gray-600"> | </span>
+                                            <span class="text-blue-800">{{ $diferencia->i }}</span> minutos
+                                        @endif
                                     </p>
                                     <p class="text-xs text-gray-500">
                                         Fecha de cierre: {{ $producto->subasta->fecha_cierre }}
@@ -87,14 +91,35 @@
                             </div>
                             <hr>
 
-                            <form action="{{-- route('ofertas.store', $producto) --}}" method="POST" class="mt-6 flex items-center">
+                            <form action="{{ route('productos.ofertar') }}" method="POST" class="mt-6 flex flex-col items-center">
                                 @csrf
-                                <input type="number" name="monto" class="border border-gray-300 rounded-md p-2 w-full" placeholder="Ingrese su oferta" required>
-                                <button type="submit" class="ml-4 bg-blue-800 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-900 transition-all">
-                                    PARTICIPAR
-                                </button>
-                                <x-input-error :messages="$errors->get('monto')" class="mt-2" />
+                                <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                                <div class="flex w-full">
+                                    <input type="number" name="monto" class="border border-gray-300 rounded-md p-2 w-full" placeholder="Ingrese su oferta" required>
+                                    <button type="submit"
+                                            class="ml-4 bg-blue-800 text-white font-semibold py-2 px-4 rounded-md cursor-pointer"
+                                            @disabled( ($producto->subasta->fecha_cierre < now()) || !Auth::check() )>
+                                        Participar
+                                    </button>
+                                </div>
+                                <x-input-error :messages="$errors->get('monto')" class="mt-2 w-full" />
                             </form>
+
+                            @if (session('status'))
+                                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mt-4" role="alert">
+                                    <p>{{ session('status') }}</p>
+                                </div>
+                            @endif
+
+                            <div class="flex items-center mt-4 justify-end">
+                                @if ($producto->subasta->fecha_cierre < now())
+                                    <i class="text-blue-500 text-sm ml-4 ti ti-alert-octagon"></i>
+                                    <span class="text-blue-500 text-sm ml-1">Subasta cerrada</span>
+                                @elseif (!Auth::check())
+                                    <i class="text-blue-500 text-sm ml-4 ti ti-alert-octagon"></i>
+                                    <span class="text-blue-500 text-sm">Tienes que estar logueado</span>
+                                @endif
+                            </div>
 
                         </div>
                     </div>

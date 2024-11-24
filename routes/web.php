@@ -30,12 +30,15 @@ Route::resource('subastas', SubastaController::class)
     ->only(['index', 'show'])
     ->names('subastas');
 
+Route::post('subastas/publicar-producto/', [SubastaController::class, 'publicarProducto'])
+    ->name('subastas.publicar-producto');
+
 Route::resource('productos', ProductoController::class)
     ->only(['show'])
     ->names('productos');
 
-// Route::post('ofertas/{$product}', [OfertaController::class, 'store'])
-//     ->name('ofertas.store');
+Route::post('productos/ofertar', [ProductoController::class, 'ofertar'])
+    ->name('productos.ofertar');
 
 
 Route::middleware('auth')->group(function () {
