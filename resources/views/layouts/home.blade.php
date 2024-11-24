@@ -21,10 +21,15 @@
 
     <div class="relative min-h-screen w-full flex flex-col items-center justify-center">
         <div class="relative w-full">
+            @if (auth()->check() && !auth()->user()->hasVerifiedEmail())
+                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-2 text-sm" role="alert">
+                    <p>Tu dirección de correo electrónico no está verificada y no podrás acceder a todas las funcionalidades de la plataforma. Por favor, verifica tu dirección de correo electrónico desde el panel.</p>
+                </div>
+            @endif
 
             <x-home.header />
 
-            <main class="my-8">
+            <main class="my-2">
                 {{ $slot }}
             </main>
 

@@ -43,6 +43,14 @@ class ProductoController extends Controller
             return back()->with('status', 'La subasta ya terminó.');
         }
 
+        if ($producto->subasta->estado === 'creada') {
+            return back()->with('status', 'La subasta aún no ha comenzado.');
+        }
+
+        if (!Auth::user()->hasVerifiedEmail()) {
+            return back()->with('status', 'Debes verificar tu correo electrónico para poder ofertar.');
+        }
+
         $producto->usuariosOferentes()->attach(Auth::id(), [
             'monto' => $request->monto,
             'forma_pago_id' => $request->forma_pago_id,

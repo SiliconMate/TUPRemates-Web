@@ -1,6 +1,6 @@
 <x-home-layout>
 
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 my-8">
         <div class="flex flex-col mx-auto px-16">
 
             <div class="flex items-center text-center font-extrabold text-blue-500 mb-6">

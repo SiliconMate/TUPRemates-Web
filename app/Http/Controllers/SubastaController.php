@@ -9,12 +9,23 @@ use Illuminate\Support\Facades\Auth;
 
 class SubastaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $subastas = Subasta::where('fecha_cierre', '>', now())
-                            ->orderBy('fecha_cierre', 'asc')
-                            ->with('categoria')
-                            ->paginate(12);
+        $query = Subasta::query();
+
+        if ($request->has('query') && $request->query('query') != null) {
+            $query->where('nombre', 'like', '%' . $request->query('query') . '%');
+        }
+
+        if ($request->has('categoria') && $request->query('categoria') != null) {
+            $query->where('categoria_id', $request->categoria);
+        }
+
+        if ($request->has('estado') && $request->query('estado') != null) {
+            $query->where('estado', $request->query('estado'));
+        }
+
+        $subastas = $query->orderBy('fecha_cierre', 'asc')->paginate(12);
 
         return view('subastas.index', compact('subastas'));
     }
@@ -33,6 +44,10 @@ class SubastaController extends Controller
 
         if (Auth::user() === null || $subasta->fecha_cierre < now()) {
             return back()->with('status', 'Debes iniciar sesión para publicar un producto o la subasta ya terminó.');
+        }
+
+        if (!Auth::user()->hasVerifiedEmail()) {
+            return back()->with('status', 'Debes verificar tu correo electrónico para poder publicar un producto.');
         }
 
         $request->validate([

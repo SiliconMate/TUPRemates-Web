@@ -11,17 +11,8 @@
                 <li><a href="{{ route('contacto') }}" class="hover:text-blue-500">Dónde encontrarnos</a></li>
             </ul>
         </div>
-        <div>
-            <h3 class="font-bold text-lg mb-4 flex justify-center text-center">
-                <i class="ti ti-category-2 text-xl mr-2"></i>
-                Categorías
-            </h3>
-            <ul class="space-y-2">
-                <li><a href="#" class="hover:text-blue-500">Inmuebles</a></li>
-                <li><a href="#" class="hover:text-blue-500">Autos y motos</a></li>
-                <li><a href="#" class="hover:text-blue-500">Camiones y autobuses</a></li>
-                <li><a href="#" class="hover:text-blue-500">Todas las Categorías</a></li>
-            </ul>
+        <div class="flex items-center justify-center">
+            <img src="{{ asset('images/TUP-REMATES-LOGO.png') }}" alt="Logo" class="w-48 mx-auto">
         </div>
         <div>
             <h3 class="font-bold text-lg mb-4 flex justify-center text-center">

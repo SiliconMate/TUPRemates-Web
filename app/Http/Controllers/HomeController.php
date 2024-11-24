@@ -11,8 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $subastas = Subasta::where('fecha_cierre', '>', now())
-                            ->orderBy('fecha_cierre', 'asc')
+        $subastas = Subasta::orderBy('fecha_cierre', 'desc')
                             ->with('categoria')
                             ->take(12)
                             ->get();

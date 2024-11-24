@@ -1,5 +1,5 @@
 <x-home-layout>
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 my-8">
         <div class="flex flex-col mx-auto px-16">
 
             <div class="mb-6">
@@ -8,11 +8,11 @@
 
                 <p class="text-gray-600 text-xl">
                     <i class="ti ti-calendar-event"></i>
-                    Fecha: {{ $producto->subasta->fecha_apertura }}
+                    <b>Inicio:</b> {{ $producto->subasta->fecha_apertura }}
                 </p>
                 <p class="text-gray-600 text-xl">
                     <i class="ti ti-calendar-stats"></i>
-                    Fecha de cierre: {{ $producto->subasta->fecha_cierre }}
+                    <b>Cierre:</b> {{ $producto->subasta->fecha_cierre }}
                 </p>
                 <p class="text-gray-600 text-xl">
                     <i class="ti ti-truck"></i>
@@ -120,7 +120,8 @@
                                 <div class="flex w-full justify-end mt-2">
                                     <button type="submit"
                                             class="ml-4 bg-blue-800 text-white font-semibold py-2 px-4 rounded-md cursor-pointer"
-                                            @disabled( ($producto->subasta->fecha_cierre < now()) || !Auth::check() )>
+                                            @disabled( ($producto->subasta->fecha_cierre < now()) || !Auth::check() )
+                                            @disabled( ($producto->subasta->estado = "creada") || !Auth::check() )>
                                         Participar
                                     </button>
                                 </div>
@@ -140,6 +141,9 @@
                                 @elseif (!Auth::check())
                                     <i class="text-blue-500 text-sm ml-4 ti ti-alert-octagon"></i>
                                     <span class="text-blue-500 text-sm">Tienes que estar logueado</span>
+                                @elseif ($producto->subasta->estado == 'creada')
+                                    <i class="text-blue-500 text-sm ml-4 ti ti-alert-octagon"></i>
+                                    <span class="text-blue-500 text-sm">La subasta aún no está abierta</span>
                                 @endif
                             </div>
 

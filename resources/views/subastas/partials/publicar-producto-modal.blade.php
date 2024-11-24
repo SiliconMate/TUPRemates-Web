@@ -67,14 +67,14 @@
         <div class="mt-4">
             <label for="terminos" class="inline-flex items-center">
                 <input id="terminos" type="checkbox" name="terminos" value="1" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" required>
-                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Acepto los términos y condiciones') }}</span>
+                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">Acepto los <a href="{{ route('terminos') }}" class="text-blue-600">términos y condiciones</a></span>
             </label>
             <x-input-error :messages="$errors->get('terminos')" class="mb-2" />
         </div>
         <div class="">
             <label for="acuerdo" class="inline-flex items-center">
                 <input id="acuerdo" type="checkbox" name="acuerdo" value="1" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" required>
-                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Acepto el acuerdo legal') }}</span>
+                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">Acepto el <a href="{{ route('legal') }}" class="text-blue-600">acuerdo legal</a></span>
             </label>
             <x-input-error :messages="$errors->get('acuerdo')" class="mb-2" />
         </div>
