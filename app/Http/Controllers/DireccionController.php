@@ -22,11 +22,10 @@ class DireccionController extends Controller
 
         if (Auth::user()->direcciones->count() === 0) {
             Auth::user()->direcciones()->create($request->all());
+        } else {
+            $direccion = Auth::user()->direcciones->first();
+            $direccion->update($request->all());
         }
-
-        $direccion = Auth::user()->direcciones->first();
-
-        $direccion->update($request->all());
 
         return back()->with('status', 'Dirección actualizada correctamente.');
     }
