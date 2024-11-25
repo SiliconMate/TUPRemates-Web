@@ -29,8 +29,8 @@ class Ganador extends Model
 
     public static function definirGanador(Producto $producto)
     {
-        $ganador = $producto->usuariosOferentes->sortByDesc('monto')->first();
-
+        $ganador = $producto->usuariosOferentes->sortByDesc('pivot.monto')->first();
+        
         if (!$ganador) {
             return null;
         }

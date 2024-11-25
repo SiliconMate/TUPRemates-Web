@@ -36,7 +36,7 @@ Schedule::call(function () {
             foreach ($subasta->productos as $producto) {
                 
                 $vendedor = User::find($producto->solicitado_por);
-                Mail::to($vendedor)->send(new InformarVendedor($producto));
+                Mail::to($vendedor->email)->send(new InformarVendedor($producto));
 
                 if ($producto->ganador) {
                     continue;
