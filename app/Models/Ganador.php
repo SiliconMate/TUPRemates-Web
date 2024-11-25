@@ -26,4 +26,24 @@ class Ganador extends Model
     {
         return $this->belongsTo(Producto::class, 'producto_id', 'id');
     }
+
+    public static function definirGanador(Producto $producto)
+    {
+        $ganador = $producto->usuariosOferentes->sortByDesc('monto')->first();
+
+        if (!$ganador) {
+            return null;
+        }
+
+        $monto = Oferta::where('producto_id', $producto->id)->max('monto');
+
+        $ganador = Ganador::create([
+            'user_id' => $ganador->id,
+            'producto_id' => $producto->id,
+            'monto' => $monto,
+        ]);
+
+        return $ganador;
+    }
+
 }
