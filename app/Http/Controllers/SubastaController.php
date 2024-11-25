@@ -75,7 +75,7 @@ class SubastaController extends Controller
 
         if ($request->hasFile('imagenes')) {
             foreach ($request->file('imagenes') as $imagen) {
-                $nombre = Auth::id() . '-' . $producto->id . '.' . $imagen->extension();
+                $nombre = Auth::id() . '-' . $producto->id . '-' . $imagen->getClientOriginalName() . $imagen->extension();
                 $imagen->storeAs('productos', $nombre, 'azure');
                 $producto->imagenes()->create(['url' => $nombre]);
             }
