@@ -110,7 +110,7 @@
                                     <div class="">
                                         <select name="forma_pago_id" class="border border-gray-300 rounded-md p-2 w-full" required>
                                             <option value="" selected disabled>Forma de pago</option>
-                                            @foreach (App\Models\SubastaFormaPago::with('formaPago')->get() as $item)
+                                            @foreach (App\Models\SubastaFormaPago::with('formaPago')->where('subasta_id', $producto->subasta->id)->get() as $item)
                                                 <option value="{{ $item->formaPago->id }}">{{ $item->formaPago->nombre }}</option>
                                             @endforeach
                                         </select>
@@ -155,36 +155,121 @@
                 <p class="text-xl text-gray-800">{{ $producto->descripcion }}</p>
             </div>
 
-            <div class="mt-6">
-                <h1 class="text-xl font-bold text-gray-800">CLASIFICACIÓN DE OFERTAS</h1>
-                <div class="flex justify-between mb-2">
-                    <p class="font-medium text-gray-800">CONSOLIDACIÓN DE OFERTAS</p>
-                    <p class="text-sm text-gray-600">TOTAL: {{ $producto->usuariosOferentes->unique('id')->count() }} COMPRADOR(ES)</p>
+
+
+            <div class="mt-16 mb-2 flex flex-col">
+                <div class="flex justify-between px-2 py-1 bg-gray-200">
+                    <p class="text-md font-bold text-gray-800">CLASIFICACIÓN DE OFERTAS</p>
+                    <p class="text-sm text-gray-700">TOTAL: {{ $producto->usuariosOferentes->unique('id')->count() }} COMPRADOR(ES)</p>
                 </div>
-                <table class="w-full text-left border-collapse border border-gray-300">
-                    <thead class="bg-gray-200">
-                        <tr>
-                            <th class="border border-gray-300 px-4 py-2">USUARIO</th>
-                            <th class="border border-gray-300 px-4 py-2">CANTIDAD DE OFERTAS</th>
-                            <th class="border border-gray-300 px-4 py-2">TIPO DE OFERTA</th>
-                            <th class="border border-gray-300 px-4 py-2">VALOR DE LA OFERTA</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($producto->usuariosOferentes->whereNull('pivot.deleted_at') as $oferta)
-                            <tr class="hover:bg-gray-100">
-                                <td class="border border-gray-300 px-4 py-2">{{ substr($oferta->name, 0, 2) . str_repeat('*', strlen($oferta->name) - 2) }}</td>
-                                <td class="border border-gray-300 px-4 py-2 text-center">{{ $producto->usuariosOferentes->where('id', $oferta->id)->count() }}</td>
-                                <td class="border border-gray-300 px-4 py-2 text-center">{{ App\Models\FormaPago::find($oferta->pivot->forma_pago_id)->nombre }}</td>
-                                <td class="border border-gray-300 px-4 py-2 text-right">${{ $oferta->pivot->monto }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="text-center text-gray-500 px-4 py-2">No hay ofertas disponibles</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+
+                <div class="my-2">
+                    <div class="flex justify-center my-3">
+                        <p class="text-sm font-bold text-gray-800">OFERTA GANADORA</p>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="table-auto w-full border border-gray-300 text-sm">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-4 py-2 border border-gray-300">USUARIO</th>
+                                    <th class="px-4 py-2 border border-gray-300">FECHA</th>
+                                    <th class="px-4 py-2 border border-gray-300">TIPO DE OFERTA</th>
+                                    <th class="px-4 py-2 border border-gray-300">VALOR DE LA OFERTA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $highestOffer = $producto->usuariosOferentes->sortByDesc('pivot.monto')->first();
+                                @endphp
+                                @if ($highestOffer)
+                                    <tr>
+                                        <td class="px-4 py-2 border border-gray-300">{{ substr($highestOffer->name, 0, 2) . str_repeat('*', strlen($highestOffer->name) - 2) }}</td>
+                                        <td class="px-4 py-2 border border-gray-300">{{ $highestOffer->pivot->created_at }}</td>
+                                        <td class="px-4 py-2 border border-gray-300">{{ App\Models\FormaPago::find($highestOffer->pivot->forma_pago_id)->nombre }}</td>
+                                        <td class="px-4 py-2 border border-gray-300">{{ number_format($highestOffer->pivot->monto, 2, ',', '.') }} $</td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <td colspan="4" class="text-center text-gray-500 px-4 py-2">No hay ofertas disponibles</td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="my-2">
+                    <div class="flex justify-center my-3">
+                        <p class="text-sm font-bold text-gray-800">ÚLTIMAS OFERTAS</p>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="table-auto w-full border border-gray-300 text-sm">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-4 py-2 border border-gray-300">USUARIO/UBICACIÓN</th>
+                                    <th class="px-4 py-2 border border-gray-300">FECHA</th>
+                                    <th class="px-4 py-2 border border-gray-300">TIPO DE OFERTA</th>
+                                    <th class="px-4 py-2 border border-gray-300">VALOR DE LA OFERTA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($producto->usuariosOferentes->sortByDesc('pivot.created_at')->take(5) as $oferta)
+                                    <tr>
+                                        <td class="px-4 py-2 border border-gray-300">{{ substr($oferta->name, 0, 2) . str_repeat('*', strlen($oferta->name) - 2) }}</td>
+                                        <td class="px-4 py-2 border border-gray-300">{{ $oferta->pivot->created_at }}</td>
+                                        <td class="px-4 py-2 border border-gray-300">{{ App\Models\FormaPago::find($oferta->pivot->forma_pago_id)->nombre }}</td>
+                                        <td class="px-4 py-2 border border-gray-300">{{ number_format($oferta->pivot->monto, 2, ',', '.') }} $</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center text-gray-500 px-4 py-2">No hay ofertas disponibles</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="my-2">
+                    <div class="flex justify-center my-3">
+                        <p class="text-sm font-bold text-gray-800">CONSOLIDACIÓN DE OFERTAS</p>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="table-auto w-full border border-gray-300 text-sm">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-4 py-2 border border-gray-300">USUARIO</th>
+                                    <th class="px-4 py-2 border border-gray-300">CANTIDAD DE OFERTAS</th>
+                                    <th class="px-4 py-2 border border-gray-300">TIPO DE OFERTA</th>
+                                    <th class="px-4 py-2 border border-gray-300">VALOR DE LA OFERTA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($producto->usuariosOferentes->groupBy('id') as $usuarioId => $ofertas)
+                                    @php
+                                        $usuario = $ofertas->first();
+                                        $cantidadOfertas = $ofertas->count();
+                                        $ultimaOferta = $ofertas->sortByDesc('pivot.created_at')->first();
+                                    @endphp
+                                    <tr>
+                                        <td class="px-4 py-2 border border-gray-300">{{ substr($usuario->name, 0, 2) . str_repeat('*', strlen($usuario->name) - 2) }}</td>
+                                        <td class="px-4 py-2 border border-gray-300">{{ $cantidadOfertas }}</td>
+                                        <td class="px-4 py-2 border border-gray-300">{{ App\Models\FormaPago::find($ultimaOferta->pivot->forma_pago_id)->nombre }}</td>
+                                        <td class="px-4 py-2 border border-gray-300">{{ number_format($ultimaOferta->pivot->monto, 2, ',', '.') }} $</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center text-gray-500 px-4 py-2">No hay ofertas disponibles</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
             </div>
 
         </div>

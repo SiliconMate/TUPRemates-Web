@@ -22,14 +22,12 @@
                         </p>
                         <p class="text-gray-500">Cierre: {{ \Carbon\Carbon::parse($subasta->fecha_cierre)->format('d m Y - H:i') }} </p>
                         <p class="text-gray-500">Categoría: {{ $subasta->categoria->nombre }} </p>
-                        @if ($subasta->fecha_cierre < now())
-                            <span class="text-sm text-slate-100 bg-gray-600 px-2 rounded-lg">
-                                Cerrada
-                            </span>
-                        @else
-                            <span class="text-sm text-slate-100 bg-blue-600 px-2 rounded-lg">
-                                Abierta
-                            </span>
+                        @if ($subasta->estado == 'creada')
+                        <span class="text-sm text-slate-100 bg-gray-600 px-2 rounded-lg">Creada</span>
+                        @elseif ($subasta->estado == 'activa')
+                        <span class="text-sm text-slate-100 bg-blue-600 px-2 rounded-lg">Activa</span>
+                        @elseif ($subasta->estado == 'cerrada')
+                        <span class="text-sm text-slate-100 bg-red-400 px-2 rounded-lg">Cerrada</span>
                         @endif
                     </a> 
                     @endforeach

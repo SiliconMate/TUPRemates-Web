@@ -19,8 +19,10 @@
                         </div>
                         @endforeach                        
                     </div>
+                    <div class="mt-6">
+                        {{ $ofertas->links() }}
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>

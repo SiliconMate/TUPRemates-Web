@@ -51,6 +51,10 @@ class ProductoController extends Controller
             return back()->with('status', 'Debes verificar tu correo electrónico para poder ofertar.');
         }
 
+        if (Auth::user()->direcciones->count() === 0) {
+            return back()->with('status', 'Debes tener un domicilio registrado para poder publicar un producto. Registra uno en tu perfil.');
+        }
+
         $producto->usuariosOferentes()->attach(Auth::id(), [
             'monto' => $request->monto,
             'forma_pago_id' => $request->forma_pago_id,

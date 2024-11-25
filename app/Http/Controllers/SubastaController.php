@@ -50,6 +50,10 @@ class SubastaController extends Controller
             return back()->with('status', 'Debes verificar tu correo electrónico para poder publicar un producto.');
         }
 
+        if (Auth::user()->direcciones->count() === 0) {
+            return back()->with('status', 'Debes tener un domicilio registrado para poder publicar un producto. Registra uno en tu perfil.');
+        }
+
         $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',

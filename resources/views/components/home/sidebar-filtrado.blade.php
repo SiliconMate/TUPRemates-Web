@@ -20,7 +20,7 @@
                 @foreach ($categorias as $categoria)
                 <li>
                     <label class="flex items-center space-x-2">
-                        <input type="radio" name="categoria" value="{{ $categoria->id }}" class="form-radio text-indigo-600" onchange="document.getElementById('filterForm').submit()" {{ request('categoria') == $categoria->id ? 'checked' : '' }}>
+                        <input type="radio" name="categoria" value="{{ $categoria->id }}" class="form-radio text-blue-600" onchange="document.getElementById('filterForm').submit()" {{ request('categoria') == $categoria->id ? 'checked' : '' }}>
                         <span class="text-gray-600">{{ $categoria->nombre }}</span>
                     </label>
                 </li>
@@ -32,19 +32,19 @@
             <ul class="space-y-2">
                 <li>
                     <label class="flex items-center space-x-2">
-                        <input type="radio" name="estado" value="creada" class="form-radio text-indigo-600" onchange="document.getElementById('filterForm').submit()" {{ request('estado') == 'creada' ? 'checked' : '' }}>
+                        <input type="radio" name="estado" value="creada" class="form-radio text-blue-600" onchange="document.getElementById('filterForm').submit()" {{ request('estado') == 'creada' ? 'checked' : '' }}>
                         <span class="text-gray-600">Recien Creada</span>
                     </label>
                 </li>
                 <li>
                     <label class="flex items-center space-x-2">
-                        <input type="radio" name="estado" value="activa" class="form-radio text-indigo-600" onchange="document.getElementById('filterForm').submit()" {{ request('estado') == 'activa' ? 'checked' : '' }}>
+                        <input type="radio" name="estado" value="activa" class="form-radio text-blue-600" onchange="document.getElementById('filterForm').submit()" {{ request('estado') == 'activa' ? 'checked' : '' }}>
                         <span class="text-gray-600">Activo</span>
                     </label>
                 </li>
                 <li>
                     <label class="flex items-center space-x-2">
-                        <input type="radio" name="estado" value="cerrada" class="form-radio text-indigo-600" onchange="document.getElementById('filterForm').submit()" {{ request('estado') == 'cerrada' ? 'checked' : '' }}>
+                        <input type="radio" name="estado" value="cerrada" class="form-radio text-blue-600" onchange="document.getElementById('filterForm').submit()" {{ request('estado') == 'cerrada' ? 'checked' : '' }}>
                         <span class="text-gray-600">Finalizado</span>
                     </label>
                 </li>

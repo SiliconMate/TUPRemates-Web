@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\ProductoController;
@@ -66,6 +67,8 @@ Route::middleware('auth')->group(function () {
         ->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
+    Route::patch('/profile/direcciones', [DireccionController::class, 'update'])
+        ->name('address.update');
 
     Route::get('/ofertas', [OfertaController::class, 'index'])
         ->name('ofertas.index');
