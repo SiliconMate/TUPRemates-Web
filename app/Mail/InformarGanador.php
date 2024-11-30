@@ -15,7 +15,7 @@ class InformarGanador extends Mailable
     use Queueable, SerializesModels;
 
     public function __construct(
-        // public Producto $producto,
+        public Producto $producto,
     )
     {
         //
@@ -32,9 +32,6 @@ class InformarGanador extends Mailable
     {
         return new Content(
             markdown: 'emails.informar-ganador',
-            with: [
-                // 'producto' => $this->producto,
-            ],
         );
     }
 
