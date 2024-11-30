@@ -6,6 +6,7 @@ use App\Models\Producto;
 use App\Models\Subasta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class SubastaController extends Controller
 {
@@ -75,7 +76,9 @@ class SubastaController extends Controller
 
         if ($request->hasFile('imagenes')) {
             foreach ($request->file('imagenes') as $imagen) {
-                $nombre = Auth::id() . '-' . $producto->id . '-' . $imagen->getClientOriginalName() . $imagen->extension();
+                $nombreOriginal = $imagen->getClientOriginalName();
+                $nombreSlug = Str::slug(pathinfo($nombreOriginal, PATHINFO_FILENAME)) . '.' . $imagen->extension();
+                $nombre = Auth::id() . '-' . $producto->id . '-' . $nombreSlug;
                 $imagen->storeAs('productos', $nombre, 'azure');
                 $producto->imagenes()->create(['url' => $nombre]);
             }
