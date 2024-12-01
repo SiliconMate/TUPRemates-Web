@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Producto;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,6 +17,7 @@ class InformarGanador extends Mailable
 
     public function __construct(
         public Producto $producto,
+        public User $usuario,
     )
     {
         //

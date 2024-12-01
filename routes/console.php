@@ -41,9 +41,6 @@ Schedule::call(function () {
                 }
 
                 $ganador = Ganador::definirGanador($producto);
-                if ($ganador) {
-                    Mail::to($ganador->user->email)->send(new InformarGanador($producto));
-                }
 
                 $precioVendido = $ganador ? $ganador->monto : 0;
                 $usuario = User::find($producto->solicitado_por);
@@ -61,7 +58,9 @@ Schedule::call(function () {
 
                 Mail::to($usuario->email)->send(new InformarVendedor($producto, $pdfOutput, $fileName));
 
-                
+                if ($ganador) {
+                    Mail::to($ganador->user->email)->send(new InformarGanador($producto, $usuario));
+                }
             }
         }
     }

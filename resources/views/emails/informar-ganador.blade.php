@@ -5,11 +5,11 @@ Eres el ganador del producto {{ $producto->titulo }} en la subasta {{ $producto-
 
 Ponte en contacto con el vendedor para coordinar la entrega del producto y el pago.
 
-Usuario Vendedor: {{ $producto->solicitado_por->name }}
+Usuario Vendedor: {{ $usuario->name }}
 
-Email: {{ $producto->solicitado_por->email }}
+Email: {{ $usuario->email }}
 
-Teléfono: {{ $producto->solicitado_por->telefono }}
+Teléfono: {{ $usuario->telefono }}
 
 Gracias,<br>
 {{ config('app.name') }}
