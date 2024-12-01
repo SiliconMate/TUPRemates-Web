@@ -30,14 +30,22 @@
             </div>
 
             <div class="flex flex-col">
-                <h1 class="text-2xl font-extrabold text-gray-800">{{ strtoupper($producto->titulo) }}</h1>
+                <h1 class="text-2xl font-extrabold text-gray-800 mb-8">{{ strtoupper($producto->titulo) }}</h1>
                 
                 <div class="flex justify-center">
-                    <div class="w-[60%]">
-                        <img src="{{Storage::disk('azure')->url('productos/' . $producto->imagenes->first()->url)}}"
-                            width="500px"
-                            class="mx-auto"
-                            alt="{{$producto->imagenes->first()->url}}">
+                    <div class="w-[60%] mx-auto">
+                        <img id="main-image" src="{{ Storage::disk('azure')->url('productos/' . $producto->imagenes->first()->url) }}" 
+                             alt="{{ $producto->imagenes->first()->url }}" 
+                             class="mx-auto transition-all duration-500 ease-in-out w-full max-w-lg border border-gray-300 rounded-lg">
+                    
+                        <div class="flex justify-center gap-2 mt-4">
+                            @foreach ($producto->imagenes as $imagen)
+                                <img src="{{ Storage::disk('azure')->url('productos/' . $imagen->url) }}" 
+                                     alt="{{ $imagen->url }}" 
+                                     class="w-20 h-20 object-cover cursor-pointer border-2 border-transparent hover:border-blue-600 rounded-md"
+                                     onclick="changeMainImage('{{ Storage::disk('azure')->url('productos/' . $imagen->url) }}')">
+                            @endforeach
+                        </div>
                     </div>
                     <div class="w-[40%] px-2">
                         <div class="bg-white shadow-md border border-blue-800 border-opacity-10 rounded-sm px-6 py-5">
@@ -274,4 +282,25 @@
 
         </div>
     </div>
+
+    <script>
+        function changeMainImage(imageUrl) {
+            const mainImage = document.getElementById('main-image');
+            mainImage.src = imageUrl;
+        }
+    </script>
+    
+
+    <style>
+        #main-image {
+            max-height: 400px;
+        }
+        img {
+            transition: transform 0.2s ease-in-out;
+        }
+        img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+
 </x-home-layout>
