@@ -44,11 +44,12 @@
                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                     </div>
-                    <input id="imagenes[]" name="imagenes[]" type="file" class="hidden" multiple 
+                    <input id="imagenes[]" name="imagenes[]" type="file" class="hidden" multiple max="3" accept="image/*"
                         @change="addImages($event)" />
                 </label>
             </div> 
             <x-input-error :messages="$errors->get('imagenes.*')" class="mt-2" />
+            <x-input-error :messages="$errors->get('imagenes')" class="mt-2" />
 
             <div class="grid grid-cols-3 gap-4 mt-4" x-show="images.length > 0">
                 <template x-for="(image, index) in images" :key="index">

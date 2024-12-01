@@ -60,7 +60,7 @@ class SubastaController extends Controller
             'descripcion' => 'required|string',
             'precio_base' => 'required|numeric|min:0',
             'subasta_id' => 'required|exists:subastas,id',
-            'imagenes' => 'required|array',
+            'imagenes' => 'required|array|max:3',
             'imagenes.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'terminos' => 'accepted',
             'acuerdo' => 'accepted',
