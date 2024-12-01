@@ -11,8 +11,8 @@ Route::get('/user', function (Request $request) {
 // GET /api/subastas
 Route::get('/subastas', [ApiSubastaController::class, 'index']);
 
-// GET /api/subastas/{id}/productos
-Route::get('/subastas/{subasta}/productos', [ApiSubastaController::class, 'productos']);
+// GET /api/subastas/{id}/
+Route::get('/subastas/{id}', [ApiSubastaController::class, 'subastaConProductos']);
 
 // GET /api/subastas/{id}/resultados
-Route::get('/subastas/{subasta}/productos-detallado', [ApiSubastaController::class, 'productosDetallado']);
+Route::get('/producto/{id}', [ApiSubastaController::class, 'productoDetallado']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Producto;
 use App\Models\Subasta;
 use Illuminate\Http\Request;
 
@@ -14,28 +15,27 @@ class SubastaController extends Controller
         return response()->json($subastas);
     }
 
-    public function productos($subastaName)
+    public function subastaConProductos($id)
     {
-        $subasta = Subasta::where('nombre', $subastaName)->first();
+        $subasta = Subasta::where('id', $id)->first();
+        $subasta->load('productos.imagenes');
 
         if (!$subasta) {
             return response()->json(['error' => 'Subasta no encontrada'], 404);
         }
 
-        $productos = $subasta->productos->load('ganador', 'imagenes');
-        return response()->json($productos);
+        return response()->json($subasta);
     }
 
-    public function productosDetallado($subastaName)
+    public function productoDetallado($id)
     {
-        $subasta = Subasta::where('nombre', $subastaName)->first();
+        $producto = Producto::where('id', $id)->first();
+        $producto->load('imagenes', 'subasta', 'ganador', 'ganador.user', 'usuariosOferentes');
 
-        if (!$subasta) {
-            return response()->json(['error' => 'Subasta no encontrada'], 404);
+        if (!$producto) {
+            return response()->json(['error' => 'Producto no encontrada'], 404);
         }
 
-        $productos = $subasta->productos->load('ganador', 'ganador.user', 'imagenes', 'usuariosOferentes');
-
-        return response()->json($productos);
+        return response()->json($producto);
     }
 }
